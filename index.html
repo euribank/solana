@@ -5,27 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EURI on Solana | Electronic Unified Reserve Instrument</title>
     <meta name="description" content="EURI on Solana — fast, transparent SPL token. 24/7 global settlements, low fees, public reserves.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='68' font-size='70' text-anchor='middle' fill='%23994CF0' font-weight='600'%3Ee%3C/text%3E%3C/svg%3E">
+    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/euribank/solana/main/logo_euri.jpg">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: system-ui, 'Inter', -apple-system, sans-serif; background: #0A0A0A; color: #EAEAEA; line-height: 1.5; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
         .header { padding: 20px 0; border-bottom: 1px solid #2A2A2A; background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 10; }
         .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
-        .logo { font-size: 2rem; font-weight: 500; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -1px; }
+        .logo img { height: 45px; width: auto; }
         .nav { display: flex; gap: 24px; align-items: center; flex-wrap: wrap; }
         .nav a { color: #CCC; text-decoration: none; font-weight: 500; transition: 0.2s; }
         .nav a:hover { color: #14F195; }
-        .btn-outline { border: 1px solid #994CF0; background: transparent; padding: 8px 20px; border-radius: 40px; color: white; font-weight: 600; text-decoration: none; transition: 0.2s; }
+        .btn-outline { border: 1px solid #994CF0; background: transparent; padding: 8px 20px; border-radius: 40px; color: white; font-weight: 600; text-decoration: none; transition: 0.2s; display: inline-block; }
         .btn-outline:hover { background: #994CF0; }
         .btn-primary { background: #994CF0; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; text-decoration: none; display: inline-block; transition: 0.2s; }
         .btn-primary:hover { background: #7b32cc; transform: scale(1.02); }
+        .btn-bsc { background: #F0B90B; color: #1A1A1A; padding: 12px 28px; border-radius: 40px; font-weight: 700; text-decoration: none; display: inline-block; transition: 0.2s; margin-top: 10px; }
+        .btn-bsc:hover { background: #d6a000; transform: scale(1.02); }
         .hero { padding: 80px 0 60px; text-align: center; }
         .badge { background: #1E1E2F; padding: 6px 14px; border-radius: 100px; font-size: 0.8rem; display: inline-block; margin-bottom: 24px; color: #14F195; }
         h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(135deg, #FFF, #994CF0); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; letter-spacing: -0.02em; }
         .hero-desc { font-size: 1.25rem; max-width: 720px; margin: 0 auto 32px; color: #B0B0B0; }
         .section-title { font-size: 2rem; font-weight: 700; margin: 70px 0 40px; text-align: center; }
-        .grid-2, .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 60px; }
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 32px; margin-bottom: 60px; }
         .card { background: #121212; border: 1px solid #2A2A2A; border-radius: 32px; padding: 28px; transition: 0.2s; }
         .card:hover { border-color: #994CF0; transform: translateY(-4px); }
         .card-icon { font-size: 2.5rem; margin-bottom: 20px; }
@@ -33,8 +35,11 @@
         .step { background: #0E0E0E; border-radius: 28px; padding: 28px; flex: 1; border-top: 3px solid #994CF0; }
         .contract-box { background: #0E0E0E; border-radius: 32px; padding: 24px; text-align: center; margin: 20px 0 40px; border: 1px solid #2A2A2A; }
         .contract-address { font-family: monospace; font-size: 1rem; background: #1A1A1A; padding: 12px 20px; border-radius: 60px; display: inline-block; word-break: break-all; max-width: 100%; }
-        .networks { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; background: #0E0E0E; border-radius: 60px; padding: 24px 32px; margin: 30px 0; }
-        .network-link { color: #14F195; text-decoration: none; font-weight: 600; }
+        .partner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 20px; margin: 40px 0; }
+        .partner-card { background: #121212; border: 1px solid #2A2A2A; border-radius: 24px; padding: 20px 12px; text-align: center; transition: 0.2s; text-decoration: none; color: #EAEAEA; }
+        .partner-card:hover { border-color: #994CF0; transform: translateY(-4px); }
+        .partner-logo { font-size: 2rem; margin-bottom: 10px; display: block; }
+        .partner-name { font-weight: 600; font-size: 0.9rem; }
         .faq-item { border-bottom: 1px solid #2A2A2A; padding: 24px 0; }
         .faq-question { font-weight: 700; font-size: 1.2rem; cursor: pointer; margin-bottom: 8px; }
         .faq-answer { color: #B0B0B0; display: none; margin-top: 12px; }
@@ -45,19 +50,23 @@
         @media (max-width: 768px) {
             h1 { font-size: 2.2rem; }
             .header-inner { flex-direction: column; }
-            .networks { flex-direction: column; align-items: center; gap: 15px; border-radius: 32px; }
+            .partner-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); }
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="container header-inner">
-            <div class="logo">euri</div>
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/euribank/solana/main/logo_euri.jpg" alt="EURI Logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'">
+                <span style="display: none; font-size: 1.8rem;">euri</span>
+            </div>
             <div class="nav">
                 <a href="#about">About</a>
                 <a href="#how-it-works">How it works</a>
+                <a href="#partners">Partners</a>
                 <a href="#faq">FAQ</a>
-                <a href="https://jup.ag/" target="_blank" class="btn-outline">Buy on Jupiter</a>
+                <a href="https://jup.ag/" target="_blank" class="btn-outline">Buy on Jupiter (SOL)</a>
             </div>
         </div>
     </header>
@@ -71,11 +80,12 @@
                 <div style="display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
                     <a href="#" class="btn-primary">Smart contract audit</a>
                     <a href="https://solscan.io/token/AsAU7v3W8F6Z93TdHS96TM2KmqykV61u2nKxJChgvetS" target="_blank" class="btn-outline">View on Solscan</a>
+                    <a href="https://bscscan.com/token/0x9d1A7A3191102e9F900Faa10540837ba84dCBAE7" target="_blank" class="btn-bsc">🟡 Buy EURI on BNB Chain (BEP-20)</a>
                 </div>
             </section>
 
             <div class="contract-box">
-                <strong>📍 Solana mint address:</strong><br>
+                <strong>📍 Solana mint address (SPL):</strong><br>
                 <span class="contract-address">AsAU7v3W8F6Z93TdHS96TM2KmqykV61u2nKxJChgvetS</span>
             </div>
 
@@ -113,13 +123,11 @@
                 </div>
             </section>
 
-            <div class="networks">
-                <span>🌐 <strong>EURI across networks:</strong></span>
-                <a href="https://etherscan.io/token/0x9d1A7A3191102e9F900Faa10540837ba84dCBAE7" target="_blank" class="network-link">Ethereum (ERC‑20)</a>
-                <a href="https://bscscan.com/token/0x9d1A7A3191102e9F900Faa10540837ba84dCBAE7" target="_blank" class="network-link">BNB Chain (BEP‑20)</a>
-                <a href="https://www.eurite.com" target="_blank" class="network-link">Eurite official site</a>
-                <span style="color: #14F195;">⚡ Solana (SPL) — you are here</span>
-            </div>
+            <!-- Partners Section -->
+            <section id="partners">
+                <h2 class="section-title">🤝 Top 30 partners & integrated networks</h2>
+                <div class="partner-grid" id="partnerGrid"></div>
+            </section>
 
             <section id="faq">
                 <h2 class="section-title">Frequently asked questions</h2>
@@ -133,7 +141,7 @@
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">❓ Where can I buy or trade EURI?</div>
-                    <div class="faq-answer">On Jupiter, Raydium, and Orca. Liquidity pools will be announced soon.</div>
+                    <div class="faq-answer">On Jupiter, Raydium, and Orca (Solana) or PancakeSwap (BNB Chain). Liquidity pools coming soon.</div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">❓ Is this the same EURI as on Ethereum?</div>
@@ -147,8 +155,8 @@
         <div class="container">
             <div class="footer-links">
                 <a href="https://www.eurite.com" target="_blank">Eurite (ETH/BNB)</a>
-                <a href="https://x.com/" target="_blank">Twitter (test)</a>
-                <a href="https://t.me/" target="_blank">Telegram (test)</a>
+                <a href="https://x.com/" target="_blank">Twitter</a>
+                <a href="https://t.me/" target="_blank">Telegram</a>
                 <a href="https://github.com/euribank/solana" target="_blank">GitHub</a>
             </div>
             <p>© 2026 EURI on Solana — Electronic Unified Reserve Instrument</p>
@@ -157,6 +165,51 @@
     </footer>
 
     <script>
+        // Partner list (30 projects)
+        const partners = [
+            { name: "Ethereum", logo: "🔷", url: "https://ethereum.org" },
+            { name: "Tether (USDT)", logo: "💵", url: "https://tether.to" },
+            { name: "BNB Chain", logo: "🟡", url: "https://bnbchain.org" },
+            { name: "Eurite", logo: "🌍", url: "https://eurite.com" },
+            { name: "Bitcoin", logo: "₿", url: "https://bitcoin.org" },
+            { name: "Solana", logo: "⚡", url: "https://solana.com" },
+            { name: "Jupiter", logo: "🪐", url: "https://jup.ag" },
+            { name: "Raydium", logo: "💧", url: "https://raydium.io" },
+            { name: "Orca", logo: "🐋", url: "https://orca.so" },
+            { name: "Bonk", logo: "🐕", url: "https://bonkcoin.com" },
+            { name: "Pyth", logo: "📊", url: "https://pyth.network" },
+            { name: "Jito", logo: "⚙️", url: "https://jito.network" },
+            { name: "Render", logo: "🎨", url: "https://render.com" },
+            { name: "Helium", logo: "📡", url: "https://helium.com" },
+            { name: "Samoyed", logo: "🐶", url: "#" },
+            { name: "StepN", logo: "👟", url: "https://stepn.com" },
+            { name: "Media Network", logo: "📺", url: "#" },
+            { name: "Atlas", logo: "⭐", url: "#" },
+            { name: "Polis", logo: "🏛️", url: "#" },
+            { name: "Dust", logo: "🌪️", url: "#" },
+            { name: "Gari", logo: "🎮", url: "#" },
+            { name: "FIDA", logo: "🆔", url: "https://bonfida.com" },
+            { name: "Kin", logo: "💜", url: "https://kin.org" },
+            { name: "Cope", logo: "📈", url: "#" },
+            { name: "Mercurial", logo: "🪙", url: "#" },
+            { name: "Shadow", logo: "🌑", url: "#" },
+            { name: "Parcl", logo: "🏠", url: "https://parcl.co" },
+            { name: "BORA", logo: "🔵", url: "#" },
+            { name: "Aury", logo: "⚔️", url: "#" },
+            { name: "Nirvana", logo: "🌀", url: "#" }
+        ];
+
+        const partnerGrid = document.getElementById("partnerGrid");
+        partners.forEach(p => {
+            const a = document.createElement("a");
+            a.href = p.url;
+            a.target = "_blank";
+            a.className = "partner-card";
+            a.innerHTML = `<span class="partner-logo">${p.logo}</span><span class="partner-name">${p.name}</span>`;
+            partnerGrid.appendChild(a);
+        });
+
+        // FAQ accordion
         document.querySelectorAll('.faq-question').forEach(q => {
             q.addEventListener('click', () => {
                 let ans = q.nextElementSibling;
