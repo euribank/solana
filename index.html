@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>EURI | Electronic Unified Reserve Instrument on Solana</title>
+    <meta name="description" content="EURI — Electronic Unified Reserve Instrument. Первый финтех-токен на Solana с прозрачным резервированием и мгновенными расчётами 24/7.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23994CF0'/%3E%3Ctext x='50' y='67' font-size='46' text-anchor='middle' fill='white' font-weight='bold'%3EE%3C/text%3E%3C/svg%3E">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0A0A0A;
+            color: #E0E0E0;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .header {
+            padding: 20px 0;
+            border-bottom: 1px solid #2A2A2A;
+            position: sticky;
+            top: 0;
+            background: rgba(10,10,10,0.85);
+            backdrop-filter: blur(12px);
+            z-index: 10;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #994CF0, #14F195);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .nav {
+            display: flex;
+            gap: 28px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: #CCC;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .nav a:hover {
+            color: #14F195;
+        }
+
+        .btn-outline {
+            border: 1px solid #994CF0;
+            background: transparent;
+            padding: 8px 20px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-outline:hover {
+            background: #994CF0;
+            border-color: #994CF0;
+        }
+
+        .btn-primary {
+            background: #994CF0;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 40px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-block;
+            text-decoration: none;
+        }
+
+        .btn-primary:hover {
+            background: #7b32cc;
+            transform: scale(1.02);
+        }
+
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .badge {
+            background: #1E1E2F;
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 24px;
+            color: #14F195;
+        }
+
+        h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #FFFFFF, #994CF0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 24px;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            max-width: 720px;
+            margin: 0 auto 32px;
+            color: #B0B0B0;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+            text-align: center;
+        }
+
+        .grid-2, .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 80px;
+        }
+
+        .card {
+            background: #121212;
+            border: 1px solid #2A2A2A;
+            border-radius: 32px;
+            padding: 28px;
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            border-color: #994CF0;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 12px;
+        }
+
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            justify-content: center;
+            margin: 48px 0;
+        }
+
+        .step {
+            background: #0E0E0E;
+            border-radius: 28px;
+            padding: 28px;
+            flex: 1;
+            min-width: 220px;
+            border-top: 3px solid #994CF0;
+        }
+
+        .step-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #994CF0;
+            margin-bottom: 16px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #2A2A2A;
+            padding: 24px 0;
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            color: #B0B0B0;
+        }
+
+        .disclaimer {
+            background: #1a1a1a;
+            border-left: 4px solid #994CF0;
+            padding: 20px 24px;
+            border-radius: 16px;
+            margin: 40px 0;
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        footer {
+            border-top: 1px solid #2A2A2A;
+            padding: 48px 0 32px;
+            margin-top: 40px;
+            text-align: center;
+            color: #777;
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .container { padding: 0 20px; }
+            .header-inner { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo">
+                <div class="logo-icon">E</div>
+                <span>EURI</span>
+            </div>
+            <div class="nav">
+                <a href="#about">О токене</a>
+                <a href="#how-it-works">Как работает</a>
+                <a href="#faq">FAQ</a>
+                <a href="https://jup.ag/" target="_blank" class="btn-outline">Купить на Jupiter</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero">
+                <div class="badge">⚡ Первый финтех-токен на Solana</div>
+                <h1>EURI — Electronic<br>Unified Reserve Instrument</h1>
+                <p class="hero-desc">
+                    Единый унифицированный резервный инструмент на блокчейне Solana. 
+                    Мгновенные переводы 24/7, комиссия ~0.00002 SOL, прозрачный смарт-контракт.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary">Аудит и код</a>
+                    <a href="https://solscan.io/" target="_blank" class="btn-outline">Смотреть на Solscan</a>
+                </div>
+            </section>
+
+            <section id="about">
+                <div class="grid-2">
+                    <div class="card">
+                        <div class="card-icon">🏦</div>
+                        <h3>Нативный SPL токен</h3>
+                        <p>EURI выпущен как стандартный токен Solana. Нет мостов — вся ликвидность на децентрализованных биржах экосистемы Solana.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">🔒</div>
+                        <h3>Прозрачное резервирование</h3>
+                        <p>Каждый выпущенный EURI обеспечен 1:1 активами (USDC / SOL). Резервный мультисиг-кошелёк доступен для публичного просмотра.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">⚡</div>
+                        <h3>Доступ 24/7</h3>
+                        <p>Транзакции подтверждаются за секунды. Никаких выходных, задержек и банковских посредников.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-icon">📜</div>
+                        <h3>Аудируемый контракт</h3>
+                        <p>Код токена проверен независимыми аудиторами. Смарт-контракт доступен на GitHub для верификации.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="how-it-works">
+                <h2 class="section-title">Как работает EURI на Solana</h2>
+                <div class="steps">
+                    <div class="step"><div class="step-number">1</div> <strong>Минт</strong><br>Пользователь отправляет обеспечение (USDC/SOL) на казначейский мультисиг. Смарт-контракт mint'ит EURI.</div>
+                    <div class="step"><div class="step-number">2</div> <strong>Использование</strong><br>EURI можно держать, переводить, свапать на Jupiter, использовать в DeFi-протоколах Solana.</div>
+                    <div class="step"><div class="step-number">3</div> <strong>Сжигание (burn)</strong><br>При возврате EURI в казначейство токены сжигаются, а обеспечение возвращается пользователю.</div>
+                </div>
+                <div class="card" style="text-align:center; margin-bottom: 60px;">
+                    <p><strong>🧾 Адрес минта (SPL Token Mint):</strong> <code>ВАШ_АДРЕС_МИНТА_СОЛАНА</code></p>
+                    <p style="margin-top: 12px;"><strong>📊 Резервный мультисиг:</strong> <code>ВАШ_РЕЗЕРВНЫЙ_СОЛАНА_АДРЕС</code> (прозрачный, под наблюдением)</p>
+                </div>
+            </section>
+
+            <section>
+                <div class="grid-3">
+                    <div class="card"><h3>🛡️ On-chain защита</h3><p>Средства хранятся на отдельном мультисиг-кошельке Solana, изолированно от операционных расходов.</p></div>
+                    <div class="card"><h3>📈 Стабильность через арбитраж</h3><p>Паритет EURI поддерживается арбитражными ботами и ликвидностью на DEX.</p></div>
+                    <div class="card"><h3>💸 Переводы без границ</h3><p>Отправляйте EURI в любую точку мира за доли цента, без посредников.</p></div>
+                </div>
+            </section>
+
+            <div class="disclaimer">
+                ⚠️ <strong>Дисклеймер:</strong> EURI (Electronic Unified Reserve Instrument) — независимый проект на блокчейне Solana. <strong>Не имеет отношения</strong> к Eurite (EURI) или Banking Circle S.A. Токен не является регулируемым стейблкоином в юрисдикции ЕС. Всегда проводите собственное исследование (DYOR).
+            </div>
+
+            <section id="faq">
+                <h2 class="section-title">Частые вопросы</h2>
+                <div class="faq-item">
+                    <div class="faq-question">❓ Что означает аббревиатура EURI?</div>
+                    <div class="faq-answer">EURI расшифровывается как <strong>Electronic Unified Reserve Instrument</strong> — электронный унифицированный резервный инструмент. Это финтех-токен на Solana, вдохновлённый концепцией прозрачных резервов.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">❓ Где купить EURI?</div>
+                    <div class="faq-answer">На DEX Jupiter, Raydium или Orca. Адрес пула: <code>ВАШ_АДРЕС_ПУЛА</code> (будет объявлен после листинга).</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">❓ Можно ли погасить токен напрямую у эмитента?</div>
+                    <div class="faq-answer">Да. Вы отправляете EURI на казначейский адрес, после верификации получаете обратно базовый актив (USDC/SOL).</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">❓ На каких блокчейнах доступен EURI?</div>
+                    <div class="faq-answer">Только Solana (основная сеть). Нет планов на мосты в другие сети для сохранения простоты и безопасности.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">❓ Официальные соцсети?</div>
+                    <div class="faq-answer">Twitter: <a href="#">@ВАШ_АККАУНТ</a> | Telegram: <a href="#">t.me/ВАШ_ЧАТ</a> | GitHub: <a href="#">github.com/ВАШ_РЕПО</a> (единственные). Будьте осторожны, избегайте мошенников.</div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 EURI — Electronic Unified Reserve Instrument. Проект сообщества на Solana.</p>
+            <p style="margin-top: 16px;">🏗️ Сайт создан по образцу Eurite.com, переработан под Solana-токен. Исходный код на GitHub.</p>
+            <p style="margin-top: 12px; font-size: 0.75rem;">Не является инвестиционной рекомендацией. Токен может иметь высокую волатильность.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(q => {
+            const answer = q.nextElementSibling;
+            if (answer) answer.style.display = 'block';
+            q.addEventListener('click', () => {
+                const ans = q.nextElementSibling;
+                ans.style.display = ans.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
