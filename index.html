@@ -1,278 +1,84 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>EURI | Electronic Unified Reserve Instrument on Solana</title>
-    <meta name="description" content="EURI — Electronic Unified Reserve Instrument. Первый финтех-токен на Solana с прозрачным резервированием и мгновенными расчётами 24/7.">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='50' fill='%23994CF0'/%3E%3Ctext x='50' y='67' font-size='46' text-anchor='middle' fill='white' font-weight='bold'%3EE%3C/text%3E%3C/svg%3E">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EURI on Solana | Electronic Unified Reserve Instrument</title>
+    <meta name="description" content="EURI on Solana — transparent SPL token. Fast, low-cost, global 24/7.">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext x='50' y='68' font-size='70' text-anchor='middle' fill='%23994CF0'%3Ee%3C/text%3E%3C/svg%3E">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #0A0A0A;
-            color: #E0E0E0;
-            line-height: 1.5;
-        }
-
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .header {
-            padding: 20px 0;
-            border-bottom: 1px solid #2A2A2A;
-            position: sticky;
-            top: 0;
-            background: rgba(10,10,10,0.85);
-            backdrop-filter: blur(12px);
-            z-index: 10;
-        }
-
-        .header-inner {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 1.5rem;
-            font-weight: 700;
-        }
-
-        .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, #994CF0, #14F195);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: white;
-        }
-
-        .nav {
-            display: flex;
-            gap: 28px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-
-        .nav a {
-            color: #CCC;
-            text-decoration: none;
-            font-weight: 500;
-            transition: 0.2s;
-        }
-
-        .nav a:hover {
-            color: #14F195;
-        }
-
-        .btn-outline {
-            border: 1px solid #994CF0;
-            background: transparent;
-            padding: 8px 20px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .btn-outline:hover {
-            background: #994CF0;
-            border-color: #994CF0;
-        }
-
-        .btn-primary {
-            background: #994CF0;
-            border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
-            color: white;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-            text-decoration: none;
-        }
-
-        .btn-primary:hover {
-            background: #7b32cc;
-            transform: scale(1.02);
-        }
-
-        .hero {
-            padding: 80px 0 60px;
-            text-align: center;
-        }
-
-        .badge {
-            background: #1E1E2F;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 0.85rem;
-            display: inline-block;
-            margin-bottom: 24px;
-            color: #14F195;
-        }
-
-        h1 {
-            font-size: 3.2rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, #FFFFFF, #994CF0);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            margin-bottom: 24px;
-        }
-
-        .hero-desc {
-            font-size: 1.25rem;
-            max-width: 720px;
-            margin: 0 auto 32px;
-            color: #B0B0B0;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .section-title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 48px;
-            text-align: center;
-        }
-
-        .grid-2, .grid-3 {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-bottom: 80px;
-        }
-
-        .card {
-            background: #121212;
-            border: 1px solid #2A2A2A;
-            border-radius: 32px;
-            padding: 28px;
-            transition: 0.2s;
-        }
-
-        .card:hover {
-            border-color: #994CF0;
-        }
-
-        .card-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 12px;
-        }
-
-        .steps {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            justify-content: center;
-            margin: 48px 0;
-        }
-
-        .step {
-            background: #0E0E0E;
-            border-radius: 28px;
-            padding: 28px;
-            flex: 1;
-            min-width: 220px;
-            border-top: 3px solid #994CF0;
-        }
-
-        .step-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #994CF0;
-            margin-bottom: 16px;
-        }
-
-        .faq-item {
-            border-bottom: 1px solid #2A2A2A;
-            padding: 24px 0;
-        }
-
-        .faq-question {
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            cursor: pointer;
-        }
-
-        .faq-answer {
-            color: #B0B0B0;
-        }
-
-        .disclaimer {
-            background: #1a1a1a;
-            border-left: 4px solid #994CF0;
-            padding: 20px 24px;
-            border-radius: 16px;
-            margin: 40px 0;
-            font-size: 0.85rem;
-            color: #aaa;
-        }
-
-        footer {
-            border-top: 1px solid #2A2A2A;
-            padding: 48px 0 32px;
-            margin-top: 40px;
-            text-align: center;
-            color: #777;
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.2rem; }
-            .container { padding: 0 20px; }
-            .header-inner { flex-direction: column; }
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: system-ui, 'Inter', 'Segoe UI', sans-serif; background: #0A0A0A; color: #E0E0E0; line-height: 1.5; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .header { padding: 20px 0; border-bottom: 1px solid #2A2A2A; position: sticky; top: 0; background: rgba(10,10,10,0.9); backdrop-filter: blur(12px); z-index: 10; }
+        .header-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+        .logo { font-size: 1.8rem; font-weight: 500; font-family: 'Helvetica Neue', sans-serif; letter-spacing: -0.5px; cursor: pointer; }
+        .nav { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+        .nav a, .lang-btn { color: #CCC; text-decoration: none; font-weight: 500; background: none; border: none; cursor: pointer; font-size: 0.9rem; padding: 6px 12px; border-radius: 30px; transition: 0.2s; }
+        .nav a:hover, .lang-btn:hover { color: #14F195; background: #1E1E2F; }
+        .btn-outline { border: 1px solid #994CF0; background: transparent; padding: 8px 20px; border-radius: 40px; color: white; font-weight: 600; text-decoration: none; }
+        .btn-outline:hover { background: #994CF0; }
+        .btn-primary { background: #994CF0; padding: 12px 28px; border-radius: 40px; color: white; font-weight: 700; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: #7b32cc; }
+        .hero { padding: 60px 0 40px; text-align: center; }
+        .badge { background: #1E1E2F; padding: 6px 14px; border-radius: 100px; font-size: 0.8rem; display: inline-block; margin-bottom: 24px; color: #14F195; }
+        h1 { font-size: 3rem; font-weight: 800; background: linear-gradient(135deg, #FFF, #994CF0); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 20px; }
+        .hero-desc { font-size: 1.2rem; max-width: 720px; margin: 0 auto 32px; color: #B0B0B0; }
+        .section-title { font-size: 1.8rem; font-weight: 700; margin: 60px 0 32px; text-align: center; }
+        .grid-2, .grid-3, .partner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; margin-bottom: 50px; }
+        .partner-grid { gap: 12px; margin-top: 20px; }
+        .card { background: #121212; border: 1px solid #2A2A2A; border-radius: 28px; padding: 24px; }
+        .card:hover { border-color: #994CF0; }
+        .partner-card { background: #0E0E0E; border: 1px solid #2A2A2A; border-radius: 40px; padding: 8px 12px; text-align: center; font-size: 0.85rem; font-weight: 500; }
+        .steps { display: flex; flex-wrap: wrap; gap: 24px; margin: 30px 0; }
+        .step { background: #0E0E0E; border-radius: 28px; padding: 24px; flex: 1; border-top: 3px solid #994CF0; }
+        .original-box { background: #0E0E0E; padding: 24px; border-radius: 32px; margin: 20px 0; text-align: center; }
+        .original-box a { color: #14F195; text-decoration: none; margin: 0 12px; }
+        .contract-address { background: #1A1A1A; padding: 12px; border-radius: 16px; font-family: monospace; word-break: break-all; text-align: center; margin: 20px 0; }
+        .faq-item { border-bottom: 1px solid #2A2A2A; padding: 20px 0; }
+        .faq-question { font-weight: 700; font-size: 1.1rem; cursor: pointer; }
+        .faq-answer { margin-top: 10px; color: #B0B0B0; display: none; }
+        .footer-links { display: flex; justify-content: center; gap: 32px; flex-wrap: wrap; margin: 30px 0 20px; }
+        .footer-links a { color: #CCC; text-decoration: none; }
+        .disclaimer { background: #1A1A1A; border-left: 4px solid #994CF0; padding: 20px; border-radius: 20px; margin: 40px 0; font-size: 0.75rem; }
+        footer { border-top: 1px solid #2A2A2A; padding: 40px 0; text-align: center; color: #777; }
+        .lang-dropdown { position: relative; display: inline-block; }
+        .lang-menu { display: none; position: absolute; top: 35px; right: 0; background: #1E1E2F; border-radius: 20px; padding: 8px; z-index: 20; flex-direction: column; gap: 5px; min-width: 100px; }
+        .lang-menu button { background: none; border: none; color: white; padding: 8px 12px; text-align: left; cursor: pointer; border-radius: 12px; width: 100%; }
+        .lang-menu button:hover { background: #994CF0; }
+        [data-lang] { display: none; }
+        [data-lang].active { display: block; }
+        .active.flex { display: flex; }
+        @media (max-width: 768px) { h1 { font-size: 2rem; } .header-inner { flex-direction: column; } }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="container header-inner">
-            <div class="logo">
-                <div class="logo-icon">E</div>
-                <span>EURI</span>
-            </div>
+            <div class="logo" onclick="setLanguage('en')">euri</div>
             <div class="nav">
-                <a href="#about">О токене</a>
-                <a href="#how-it-works">Как работает</a>
-                <a href="#faq">FAQ</a>
-                <a href="https://jup.ag/" target="_blank" class="btn-outline">Купить на Jupiter</a>
+                <a href="#about" data-lang="en" class="active">About</a>
+                <a href="#about" data-lang="ru">О проекте</a>
+                <a href="#about" data-lang="es">Acerca</a>
+                <a href="#about" data-lang="de">Über</a>
+                <a href="#about" data-lang="fr">À propos</a>
+                <a href="#about" data-lang="zh">关于</a>
+                <a href="#about" data-lang="ja">概要</a>
+                <a href="#about" data-lang="ar">حول</a>
+                <div class="lang-dropdown">
+                    <button class="lang-btn" id="langBtn">🌐 EN</button>
+                    <div class="lang-menu" id="langMenu">
+                        <button onclick="setLanguage('en')">English</button>
+                        <button onclick="setLanguage('ru')">Русский</button>
+                        <button onclick="setLanguage('es')">Español</button>
+                        <button onclick="setLanguage('de')">Deutsch</button>
+                        <button onclick="setLanguage('fr')">Français</button>
+                        <button onclick="setLanguage('zh')">中文</button>
+                        <button onclick="setLanguage('ja')">日本語</button>
+                        <button onclick="setLanguage('ar')">العربية</button>
+                    </div>
+                </div>
+                <a href="https://jup.ag/" target="_blank" class="btn-outline">Buy on Jupiter</a>
             </div>
         </div>
     </header>
@@ -280,110 +86,150 @@
     <main>
         <div class="container">
             <section class="hero">
-                <div class="badge">⚡ Первый финтех-токен на Solana</div>
+                <div class="badge" data-lang="en" class="active">⚡ Solana-native financial instrument</div>
+                <div class="badge" data-lang="ru">⚡ Нативный инструмент на Solana</div>
+                <div class="badge" data-lang="es">⚡ Instrumento financiero nativo de Solana</div>
+                <div class="badge" data-lang="de">⚡ Natürliches Solana-Finanzinstrument</div>
+                <div class="badge" data-lang="fr">⚡ Instrument financier natif Solana</div>
+                <div class="badge" data-lang="zh">⚡ Solana原生金融工具</div>
+                <div class="badge" data-lang="ja">⚡ Solanaネイティブ金融商品</div>
+                <div class="badge" data-lang="ar">⚡ أداة مالية أصلية على Solana</div>
                 <h1>EURI — Electronic<br>Unified Reserve Instrument</h1>
-                <p class="hero-desc">
-                    Единый унифицированный резервный инструмент на блокчейне Solana. 
-                    Мгновенные переводы 24/7, комиссия ~0.00002 SOL, прозрачный смарт-контракт.
-                </p>
+                <div data-lang="en" class="active hero-desc">A transparent SPL token on Solana. Backed 1:1 by digital assets, public multisig, global 24/7.</div>
+                <div data-lang="ru" class="hero-desc">Прозрачный SPL-токен на Solana. Обеспечение 1:1, публичный мультисиг, работа 24/7.</div>
+                <div data-lang="es" class="hero-desc">Token SPL transparente en Solana. Respaldado 1:1, multisig público, global 24/7.</div>
+                <div data-lang="de" class="hero-desc">Transparenter SPL-Token auf Solana. 1:1 gedeckt, öffentliches Multisig, global 24/7.</div>
+                <div data-lang="fr" class="hero-desc">Token SPL transparent sur Solana. Garanti 1:1, multisig public, mondial 24/7.</div>
+                <div data-lang="zh" class="hero-desc">Solana上的透明SPL代币。1:1资产支持，公开多签，全球24/7。</div>
+                <div data-lang="ja" class="hero-desc">Solana上の透明なSPLトークン。1:1担保、公開マルチシグ、グローバル24時間稼働。</div>
+                <div data-lang="ar" class="hero-desc">رمز SPL شفاف على Solana. مدعوم 1:1، multisig عام، عالمي 24/7.</div>
                 <div class="hero-buttons">
-                    <a href="#" class="btn-primary">Аудит и код</a>
-                    <a href="https://solscan.io/" target="_blank" class="btn-outline">Смотреть на Solscan</a>
+                    <a href="#" class="btn-primary" data-lang="en" class="active">Audit & Code</a>
+                    <a href="#" class="btn-primary" data-lang="ru">Аудит и код</a>
+                    <a href="#" class="btn-primary" data-lang="es">Auditoría y código</a>
+                    <a href="#" class="btn-primary" data-lang="de">Audit & Code</a>
+                    <a href="#" class="btn-primary" data-lang="fr">Audit et code</a>
+                    <a href="#" class="btn-primary" data-lang="zh">审计与代码</a>
+                    <a href="#" class="btn-primary" data-lang="ja">監査とコード</a>
+                    <a href="#" class="btn-primary" data-lang="ar">التدقيق والكود</a>
                 </div>
             </section>
 
             <section id="about">
                 <div class="grid-2">
-                    <div class="card">
-                        <div class="card-icon">🏦</div>
-                        <h3>Нативный SPL токен</h3>
-                        <p>EURI выпущен как стандартный токен Solana. Нет мостов — вся ликвидность на децентрализованных биржах экосистемы Solana.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">🔒</div>
-                        <h3>Прозрачное резервирование</h3>
-                        <p>Каждый выпущенный EURI обеспечен 1:1 активами (USDC / SOL). Резервный мультисиг-кошелёк доступен для публичного просмотра.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">⚡</div>
-                        <h3>Доступ 24/7</h3>
-                        <p>Транзакции подтверждаются за секунды. Никаких выходных, задержек и банковских посредников.</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-icon">📜</div>
-                        <h3>Аудируемый контракт</h3>
-                        <p>Код токена проверен независимыми аудиторами. Смарт-контракт доступен на GitHub для верификации.</p>
-                    </div>
+                    <div class="card"><h3 data-lang="en" class="active">Native SPL Token</h3><h3 data-lang="ru">Нативный SPL токен</h3><h3 data-lang="es">Token SPL nativo</h3><h3 data-lang="de">Nativer SPL-Token</h3><h3 data-lang="fr">Token SPL natif</h3><h3 data-lang="zh">原生SPL代币</h3><h3 data-lang="ja">ネイティブSPLトークン</h3><h3 data-lang="ar">رمز SPL أصلي</h3><p data-lang="en" class="active">Issued as standard Solana token. No bridges, all liquidity on Solana DEXs.</p><p data-lang="ru">Выпущен как стандартный токен Solana. Без мостов, вся ликвидность на DEX Solana.</p><p data-lang="es">Emitido como token estándar de Solana. Sin puentes, toda liquidez en DEX de Solana.</p><p data-lang="de">Ausgegeben als Standard-Solana-Token. Keine Brücken, gesamte Liquidität auf Solana-DEX.</p><p data-lang="fr">Émis comme token Solana standard. Pas de ponts, toute liquidité sur les DEX Solana.</p><p data-lang="zh">作为标准Solana代币发行。无桥接，所有流动性在Solana DEX上。</p><p data-lang="ja">標準的なSolanaトークンとして発行。ブリッジ不要、流動性はSolana DEXに。</p><p data-lang="ar">صدر كرمز Solana قياسي. بدون جسور، كل السيولة في DEX Solana.</p></div>
+                    <div class="card"><h3 data-lang="en" class="active">Transparent Reserves</h3><h3 data-lang="ru">Прозрачные резервы</h3><h3 data-lang="es">Reservas transparentes</h3><h3 data-lang="de">Transparente Reserven</h3><h3 data-lang="fr">Réserves transparentes</h3><h3 data-lang="zh">透明储备</h3><h3 data-lang="ja">透明な準備金</h3><h3 data-lang="ar">احتياطيات شفافة</h3><p data-lang="en" class="active">Each EURI backed 1:1 by USDC/SOL. Public multisig wallet.</p><p data-lang="ru">Каждый EURI обеспечен 1:1 USDC/SOL. Публичный мультисиг-кошелёк.</p><p data-lang="es">Cada EURI respaldado 1:1 por USDC/SOL. Monedero multisig público.</p><p data-lang="de">Jeder EURI 1:1 durch USDC/SOL gedeckt. Öffentliche Multisig-Wallet.</p><p data-lang="fr">Chaque EURI garanti 1:1 par USDC/SOL. Portefeuille multisig public.</p><p data-lang="zh">每个EURI由USDC/SOL 1:1支持。公开多签钱包。</p><p data-lang="ja">各EURIはUSDC/SOLにより1:1で担保。公開マルチシグウォレット。</p><p data-lang="ar">كل EURI مدعوم 1:1 بـ USDC/SOL. محفظة multisig عامة.</p></div>
                 </div>
             </section>
 
-            <section id="how-it-works">
-                <h2 class="section-title">Как работает EURI на Solana</h2>
-                <div class="steps">
-                    <div class="step"><div class="step-number">1</div> <strong>Минт</strong><br>Пользователь отправляет обеспечение (USDC/SOL) на казначейский мультисиг. Смарт-контракт mint'ит EURI.</div>
-                    <div class="step"><div class="step-number">2</div> <strong>Использование</strong><br>EURI можно держать, переводить, свапать на Jupiter, использовать в DeFi-протоколах Solana.</div>
-                    <div class="step"><div class="step-number">3</div> <strong>Сжигание (burn)</strong><br>При возврате EURI в казначейство токены сжигаются, а обеспечение возвращается пользователю.</div>
-                </div>
-                <div class="card" style="text-align:center; margin-bottom: 60px;">
-                    <p><strong>🧾 Адрес минта (SPL Token Mint):</strong> <code>ВАШ_АДРЕС_МИНТА_СОЛАНА</code></p>
-                    <p style="margin-top: 12px;"><strong>📊 Резервный мультисиг:</strong> <code>ВАШ_РЕЗЕРВНЫЙ_СОЛАНА_АДРЕС</code> (прозрачный, под наблюдением)</p>
-                </div>
-            </section>
+            <!-- Smart Contract Address -->
+            <div class="contract-address">
+                📍 <strong>Solana Mint Address:</strong> <code>AsAU7v3W8F6Z93TdHS96TM2KmqykV61u2nKxJChgvetS</code>
+            </div>
 
-            <section>
-                <div class="grid-3">
-                    <div class="card"><h3>🛡️ On-chain защита</h3><p>Средства хранятся на отдельном мультисиг-кошельке Solana, изолированно от операционных расходов.</p></div>
-                    <div class="card"><h3>📈 Стабильность через арбитраж</h3><p>Паритет EURI поддерживается арбитражными ботами и ликвидностью на DEX.</p></div>
-                    <div class="card"><h3>💸 Переводы без границ</h3><p>Отправляйте EURI в любую точку мира за доли цента, без посредников.</p></div>
-                </div>
+            <!-- Original EURI Links -->
+            <div class="original-box">
+                <h3 data-lang="en" class="active">📌 Original EURI (Eurite)</h3>
+                <h3 data-lang="ru">📌 Оригинальный EURI (Eurite)</h3>
+                <h3 data-lang="es">📌 EURI original (Eurite)</h3>
+                <h3 data-lang="de">📌 Originaler EURI (Eurite)</h3>
+                <h3 data-lang="fr">📌 EURI original (Eurite)</h3>
+                <h3 data-lang="zh">📌 原始EURI (Eurite)</h3>
+                <h3 data-lang="ja">📌 オリジナルEURI (Eurite)</h3>
+                <h3 data-lang="ar">📌 EURI الأصلي (Eurite)</h3>
+                <p style="margin: 15px 0;">
+                    <a href="https://www.eurite.com" target="_blank">🌐 Official Website</a> |
+                    <a href="https://etherscan.io/token/0x9d1A7A3191102e9F900Faa10540837ba84dCBAE7" target="_blank">🔷 Ethereum (ERC-20)</a> |
+                    <a href="https://bscscan.com/token/0x9d1A7A3191102e9F900Faa10540837ba84dCBAE7" target="_blank">🟡 BNB Chain (BEP-20)</a>
+                </p>
+                <p style="font-size: 0.8rem; opacity: 0.7;">Same contract address: <code>0x9d1A7A3191102e9F900Faa10540837ba84dCBAE7</code></p>
+            </div>
+
+            <!-- Top 30 Partner Tokens -->
+            <h2 class="section-title" data-lang="en" class="active">🤝 Top 30 Partner Tokens</h2>
+            <h2 class="section-title" data-lang="ru">🤝 Топ-30 токенов-партнёров</h2>
+            <h2 class="section-title" data-lang="es">🤝 Top 30 tokens socios</h2>
+            <h2 class="section-title" data-lang="de">🤝 Top 30 Partner-Token</h2>
+            <h2 class="section-title" data-lang="fr">🤝 Top 30 tokens partenaires</h2>
+            <h2 class="section-title" data-lang="zh">🤝 前30名合作伙伴代币</h2>
+            <h2 class="section-title" data-lang="ja">🤝 トップ30パートナートークン</h2>
+            <h2 class="section-title" data-lang="ar">🤝 أفضل 30 رمزاً شريكاً</h2>
+            <div class="partner-grid" id="partnerGrid"></div>
+
+            <!-- FAQ -->
+            <section id="faq">
+                <h2 class="section-title">FAQ</h2>
+                <div class="faq-item"><div class="faq-question">❓ What is EURI?</div><div class="faq-answer">EURI — Electronic Unified Reserve Instrument, a transparent SPL token on Solana.</div></div>
+                <div class="faq-item"><div class="faq-question">❓ Где купить EURI?</div><div class="faq-answer">На DEX Jupiter, Raydium, Orca. Адрес пула будет объявлен.</div></div>
+                <div class="faq-item"><div class="faq-question">❓ Is this the original EURI from Banking Circle?</div><div class="faq-answer">No. This is an independent Solana token inspired by the original. See links above.</div></div>
             </section>
 
             <div class="disclaimer">
-                ⚠️ <strong>Дисклеймер:</strong> EURI (Electronic Unified Reserve Instrument) — независимый проект на блокчейне Solana. <strong>Не имеет отношения</strong> к Eurite (EURI) или Banking Circle S.A. Токен не является регулируемым стейблкоином в юрисдикции ЕС. Всегда проводите собственное исследование (DYOR).
+                ⚠️ <strong>Disclaimer:</strong> EURI (Electronic Unified Reserve Instrument) is an independent project on Solana. NOT affiliated with Eurite (Banking Circle S.A.). Always DYOR.
             </div>
-
-            <section id="faq">
-                <h2 class="section-title">Частые вопросы</h2>
-                <div class="faq-item">
-                    <div class="faq-question">❓ Что означает аббревиатура EURI?</div>
-                    <div class="faq-answer">EURI расшифровывается как <strong>Electronic Unified Reserve Instrument</strong> — электронный унифицированный резервный инструмент. Это финтех-токен на Solana, вдохновлённый концепцией прозрачных резервов.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">❓ Где купить EURI?</div>
-                    <div class="faq-answer">На DEX Jupiter, Raydium или Orca. Адрес пула: <code>ВАШ_АДРЕС_ПУЛА</code> (будет объявлен после листинга).</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">❓ Можно ли погасить токен напрямую у эмитента?</div>
-                    <div class="faq-answer">Да. Вы отправляете EURI на казначейский адрес, после верификации получаете обратно базовый актив (USDC/SOL).</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">❓ На каких блокчейнах доступен EURI?</div>
-                    <div class="faq-answer">Только Solana (основная сеть). Нет планов на мосты в другие сети для сохранения простоты и безопасности.</div>
-                </div>
-                <div class="faq-item">
-                    <div class="faq-question">❓ Официальные соцсети?</div>
-                    <div class="faq-answer">Twitter: <a href="#">@ВАШ_АККАУНТ</a> | Telegram: <a href="#">t.me/ВАШ_ЧАТ</a> | GitHub: <a href="#">github.com/ВАШ_РЕПО</a> (единственные). Будьте осторожны, избегайте мошенников.</div>
-                </div>
-            </section>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>© 2026 EURI — Electronic Unified Reserve Instrument. Проект сообщества на Solana.</p>
-            <p style="margin-top: 16px;">🏗️ Сайт создан по образцу Eurite.com, переработан под Solana-токен. Исходный код на GitHub.</p>
-            <p style="margin-top: 12px; font-size: 0.75rem;">Не является инвестиционной рекомендацией. Токен может иметь высокую волатильность.</p>
+            <div class="footer-links">
+                <a href="https://eurite.com" target="_blank">🌐 Original EURI Site</a>
+                <a href="https://x.com/" target="_blank">🐦 Twitter (test)</a>
+                <a href="https://t.me/" target="_blank">📱 Telegram (test)</a>
+                <a href="https://github.com/euribank/solana" target="_blank">📂 GitHub</a>
+            </div>
+            <p>© 2026 EURI on Solana — Electronic Unified Reserve Instrument</p>
         </div>
     </footer>
 
     <script>
-        document.querySelectorAll('.faq-question').forEach(q => {
-            const answer = q.nextElementSibling;
-            if (answer) answer.style.display = 'block';
-            q.addEventListener('click', () => {
-                const ans = q.nextElementSibling;
-                ans.style.display = ans.style.display === 'none' ? 'block' : 'none';
+        // Partner tokens list (top 30)
+        const partners = [
+            "SOL", "USDC", "USDT", "JUP", "RAY", "ORCA", "BONK", "WIF", "PYTH", "JTO",
+            "RNDR", "HNT", "MOBILE", "SAMO", "SLND", "STEP", "MEDIA", "ATLAS", "POLIS", "DUST",
+            "GARI", "FIDA", "KIN", "COPE", "MER", "SHDW", "PRCL", "BORA", "AURY", "NIRV"
+        ];
+        const partnerGrid = document.getElementById("partnerGrid");
+        partners.forEach(p => {
+            let div = document.createElement("div");
+            div.className = "partner-card";
+            div.innerText = p;
+            partnerGrid.appendChild(div);
+        });
+
+        // Language switching
+        function setLanguage(lang) {
+            document.querySelectorAll('[data-lang]').forEach(el => {
+                if (el.getAttribute('data-lang') === lang) {
+                    el.classList.add('active');
+                    if (el.classList.contains('flex-lang')) el.classList.add('flex');
+                } else {
+                    el.classList.remove('active');
+                    el.classList.remove('flex');
+                }
             });
+            document.getElementById('langBtn').innerHTML = `🌐 ${lang.toUpperCase()}`;
+            localStorage.setItem('euri_lang', lang);
+        }
+
+        document.getElementById('langBtn').addEventListener('click', () => {
+            const menu = document.getElementById('langMenu');
+            menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+        });
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                let ans = q.nextElementSibling;
+                ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+        // Load saved language
+        const savedLang = localStorage.getItem('euri_lang') || 'en';
+        setLanguage(savedLang);
+        // Close menu on click outside
+        window.addEventListener('click', (e) => {
+            if (!e.target.closest('.lang-dropdown')) {
+                document.getElementById('langMenu').style.display = 'none';
+            }
         });
     </script>
 </body>
